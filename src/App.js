@@ -42,32 +42,38 @@ export default function App() {
     let flite;
 
     return (
-        <div className="container">
-            <Editor
-                tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
-                onInit={(evt, editor) => editorRef.current = editor}
-                init={{
-                    height: 500,
-                    width: 650,
-                    menubar: true,
-                    plugins: [
-                        'flite',
-                    ],
-                    toolbar: 'flite',
-                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+        <>
+            <div className="container">
+                <Editor
+                    tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
+                    onInit={(evt, editor) => editorRef.current = editor}
+                    init={{
+                        height: 500,
+                        width: 650,
+                        menubar: true,
+                        plugins: [
+                            'flite',
+                        ],
+                        toolbar: 'flite',
+                        content_style: 'body { font-family:,Arial,sans-serif; font-size:14px }',
 
-                    setup: (editor) => {
-                        editor.on('flite:init', (e) => {
-                            flite = e.flite;
-                        }
-                        )
-                    },
-                }}
-            />
-            <button onClick={log}>Log editor content</button>
-            <button onClick={setAntti}>Set Antti as user</button>
-            <button onClick={setLauri}>Set Lauri as user</button>
-
-        </div>
+                        setup: (editor) => {
+                            editor.on('flite:init', (e) => {
+                                flite = e.flite;
+                            }
+                            )
+                        },
+                    }}
+                />
+                <div className='muutoshistoriaElement'>
+                    Tähän muutoshistoria
+                </div>
+            </div>
+            <div className='buttonContainer'>
+                <button onClick={log}>Log editor content</button>
+                <button onClick={setAntti}>Set Antti as user</button>
+                <button onClick={setLauri}>Set Lauri as user</button>
+            </div >
+        </>
     );
 }
