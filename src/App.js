@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import "./App.css";
-
+import dayjs from 'dayjs';
 
 
 export default function App() {
@@ -17,32 +17,26 @@ export default function App() {
     const logData = () => {
         if (editorRef.current) {
             const editorContent = editorRef.current.getContent();
-            console.log(typeof editorContent);
             const spans = /<span.*?<\/span>/gms
             // convert spans into array of objects
             const spansArray = editorContent.match(spans)
-            console.log(spansArray)
             const matchEl = []
             for (const row in spansArray) {
                 const osuma = {}
-                console.log(spansArray[row])
                 const row2 = spansArray[row]
                 const regex = /<span(?:.*?)>(?<content>.*?)<\/span>|data-username="(?<name>.*?)"/gms;
                 for (const match of row2.matchAll(regex)) {
                     const { content } = match.groups;
-                    console.log(content);
                     osuma.content = content
                 }
                 const regex2 = /data-username="(?<name>.*?)"/gms
                 for (const match of row2.matchAll(regex2)) {
                     const { name } = match.groups;
-                    console.log(name);
                     osuma.name = name
                 }
-                const regexTime = /data-time="(?<time>.*?)"/gms
+                const regexTime = /data-last-change-time="(?<time>.*?)"/gms
                 for (const match of row2.matchAll(regexTime)) {
                     const { time } = match.groups;
-                    console.log(time);
                     osuma.time = time
                 }
                 matchEl.push(osuma)
@@ -54,11 +48,12 @@ export default function App() {
 
     const renderChangeElements = (matchEl) => {
         const theArray = matchEl.map(change => {
+            const time = change.time
             return (
                 <div key={change.time}>
-                    <h2>{change.name}</h2>
+                    <h3>{change.name}</h3>
                     <p>{change.content}</p>
-                    <p>{change.time}</p>
+                    <p>{dayjs(parseInt(time)).format("dddd HH:mm")}</p>
                 </div>
             )
         })

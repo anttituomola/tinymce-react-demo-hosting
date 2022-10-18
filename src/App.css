@@ -6,6 +6,7 @@ boyd {
     display: flex;
     gap: 1em;
     justify-content: center;
+    margin-top: 3em;
 }
 
 .buttonContainer {
